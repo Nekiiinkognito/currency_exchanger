@@ -1,10 +1,11 @@
 import { useAtom } from 'jotai'
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { exchangeRatesAtom } from '../App'
-import { Input, Option, Select } from '@mui/joy'
+import { Input, Option, Select, Tooltip } from '@mui/joy'
 import { InnerInput } from '../CustomCurrencyInput/CustomCurrencyInput'
 import './CurrencyExchangeCalculator.css'
 import FavoriteButton from '../FavoriteButton/FavoriteButton'
+import { CurrencyInfo } from '../Constant/CurrencyInfo'
 
 
 export default function CurrencyExchangeCalculator() {
@@ -61,10 +62,12 @@ export default function CurrencyExchangeCalculator() {
     const currencyBoxlist =  useMemo(() => {
         return Object.keys(exchangeRates).map(key => {
             return <Option key={key} value={key}>
-                <div className='listboxCurrencyWrapper'>
-                    <div> {key} </div>
-                    <FavoriteButton currency={key} />
-                </div>
+                <Tooltip  placement='left' variant='soft' title={CurrencyInfo[key] ? CurrencyInfo[key].name : "No data"}>
+                    <div className='listboxCurrencyWrapper'>
+                        <div> {key} </div>
+                        <FavoriteButton currency={key} />
+                    </div>
+                </Tooltip>
             </Option>
         })
     }, [exchangeRates])
@@ -72,15 +75,18 @@ export default function CurrencyExchangeCalculator() {
   return (
     <div className='currencyBoxWrapper'>
         <div className='currencyBox'>
-            <Input
-            slots={{input: InnerInput}}
-            slotProps={ {input: {sx: {minWidth: "25rem"}, type: "text", placeholder: "Amount", label: "From"}} }
-            value={firstCurrencyAmount}
-            onChange={(e) => handleChangeAmount(e, setFirstCurrencyAmount, 1)}/>
+            <div style={{width: '15rem'}}>
+                <Input
+                slots={{input: InnerInput}}
+                slotProps={ {input: {sx: {minWidth: "7.5rem"}, type: "text", placeholder: "Amount", label: "From"}} }
+                value={firstCurrencyAmount}
+                endDecorator={CurrencyInfo[fromCurrency] ? CurrencyInfo[fromCurrency].symbol : ""}
+                onChange={(e) => handleChangeAmount(e, setFirstCurrencyAmount, 1)}/>
+            </div>
 
             <Select 
             value={fromCurrency} 
-            slotProps={ { button: {sx: {minWidth: "10rem"}}, listbox: { sx: {maxWidth: 150} } } }
+            slotProps={ { button: {sx: {minWidth: "4rem"}}, listbox: { sx: {maxWidth: 150} } } }
             onChange={(_e, value) => handleChange(value, setFromCurrency, 0)}>
 
                 {currencyBoxlist}
@@ -89,14 +95,17 @@ export default function CurrencyExchangeCalculator() {
         </div>
 
         <div className='currencyBox'>
-            <Input type='string' 
-            slots={{input: InnerInput}}
-            slotProps={ {input: {sx: {minWidth: "25rem"}, type: "text", placeholder: "Amount", label: "To"}}}
-            value={secondCurrencyAmount}
-            onChange={(e) => handleChangeAmount(e, setSecondCurrencyAmount, 2)}/>
+            <div style={{width: '15rem'}}>
+                <Input type='string' 
+                slots={{input: InnerInput}}
+                slotProps={ {input: {sx: {minWidth: "7.5rem"}, type: "text", placeholder: "Amount", label: "To"}}}
+                value={secondCurrencyAmount}
+                endDecorator={CurrencyInfo[toCurrency] ? CurrencyInfo[toCurrency].symbol : ""}
+                onChange={(e) => handleChangeAmount(e, setSecondCurrencyAmount, 2)}/>
+            </div>
             
             <Select
-            slotProps={ { button: {sx: {minWidth: "10rem"}}, listbox: { sx: {maxWidth: 150} } } }
+            slotProps={ { button: {sx: {minWidth: "4rem"}}, listbox: { sx: {maxWidth: 150} } } }
             value={toCurrency} 
             onChange={(_e, value) => handleChange(value, setToCurrency, 1)}
             >

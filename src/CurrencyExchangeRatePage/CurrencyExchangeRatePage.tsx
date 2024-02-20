@@ -8,7 +8,10 @@ export default function CurrencyExchangeRatePage() {
     const [defaultCurrency] = useAtom(defaultCurrencyAtom)
         
   return (
-    <div>
+    <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+    }}>
         {Object.keys(exchangeRate).map(key => {
             if(key !== defaultCurrency) {
                 return <CurrencyExchangeRateField key={key} currencyToConvert={key}/>

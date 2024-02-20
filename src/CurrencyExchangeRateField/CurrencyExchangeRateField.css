@@ -4,12 +4,23 @@
     height: 3rem;
     align-items: center;
     justify-content: space-between;
-    width: 30%;
+    width: 80%;
+    height: 100%;
 
     margin: 1rem;
+    padding-left: 10px;
+
+    transition: all 0.2s;
+}
+
+.mainCurrencyExchangeWrapper:hover {
+    background-color: wheat;
+    scale: 1.03;
 }
 
 .currencyExchangeWrapper {
     display: flex;
     gap: 1rem;
+
+    justify-content: right;
 }

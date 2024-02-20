@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiAxiosInstance } from './api/apiSetup'
 import CurrencyExchangerHome from './CurrencyExchangerHome/CurrencyExchangerHome'
 import { atomWithStorage } from 'jotai/utils'
+import CurrencyExchangeRatePage from './CurrencyExchangeRatePage/CurrencyExchangeRatePage'
 
 const tempExchangeRates: ExchangeRate = {
   "AED": 3.67295,
@@ -182,11 +183,12 @@ const tempExchangeRates: ExchangeRate = {
 
 export const exchangeRatesAtom = atom<ExchangeRate>(tempExchangeRates)
 export const favoriteCurrenciesAtom = atomWithStorage<string[]>('favorite_currencies', [])
+export const defaultCurrencyAtom = atomWithStorage<string>('default_currency', "")
 
 function App() {
-
   const [exchangeRates, setExchangeRates] = useAtom(exchangeRatesAtom)
   const [favoriteCurrencies] = useAtom(favoriteCurrenciesAtom)
+  const [defaultCurrency, setDefaultCurrency] = useAtom(defaultCurrencyAtom)
 
   useQuery({
     queryKey: ['exchangeRates', 'main'],
@@ -204,13 +206,28 @@ function App() {
         setExchangeRates(tempObjectWithRates)
         console.log(exchangeRates)
       })
+
+      // API to get information about user (Like city, currency etc.)
+      fetch('https://api.ipdata.co?api-key=342aa2d827e9e7af82376a927f3dcafb684d0fed3bf4d8847a98789a&fields=currency')
+      .then(response => {
+          return response.json()
+      }).then( response => {
+
+        // If there no default currency, probably user is new, and we set 
+        // currency according to his location
+        if(!defaultCurrency) {
+          setDefaultCurrency(response.currency.code)
+        }
+      }
+      )
+
       return {}
     },
     enabled: false
   })
 
   useEffect(() => {
-    setExchangeRates(prev => {
+    setExchangeRates(_prev => {
       var temp: ExchangeRate = {}
       for (let i = 0; i < favoriteCurrencies.length; i++){
         let currencyCurrent = favoriteCurrencies[i]
@@ -228,7 +245,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<CurrencyExchangerHome />} />
-            <Route path='/favorite' element={<div>Favorite</div>} />
+            <Route path='/exchange_rates' element={<CurrencyExchangeRatePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

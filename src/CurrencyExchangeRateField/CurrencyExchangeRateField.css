@@ -1,0 +1,15 @@
+.mainCurrencyExchangeWrapper {
+    display: flex;
+
+    height: 3rem;
+    align-items: center;
+    justify-content: space-between;
+    width: 30%;
+
+    margin: 1rem;
+}
+
+.currencyExchangeWrapper {
+    display: flex;
+    gap: 1rem;
+}

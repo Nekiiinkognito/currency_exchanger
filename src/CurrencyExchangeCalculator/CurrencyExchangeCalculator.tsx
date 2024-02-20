@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
 import { exchangeRatesAtom } from '../App'
 import { Input, Option, Select } from '@mui/joy'
 import { InnerInput } from '../CustomCurrencyInput/CustomCurrencyInput'
@@ -57,6 +57,18 @@ export default function CurrencyExchangeCalculator() {
         return <div>Some things went wrong...</div>
     }
 
+    
+    const currencyBoxlist =  useMemo(() => {
+        return Object.keys(exchangeRates).map(key => {
+            return <Option key={key} value={key}>
+                <div className='listboxCurrencyWrapper'>
+                    <div> {key} </div>
+                    <FavoriteButton currency={key} />
+                </div>
+            </Option>
+        })
+    }, [exchangeRates])
+
   return (
     <div className='currencyBoxWrapper'>
         <div className='currencyBox'>
@@ -71,12 +83,7 @@ export default function CurrencyExchangeCalculator() {
             slotProps={ { button: {sx: {minWidth: "10rem"}}, listbox: { sx: {maxWidth: 150} } } }
             onChange={(_e, value) => handleChange(value, setFromCurrency, 0)}>
 
-                {Object.keys(exchangeRates).map(key => {
-                    return <Option key={key} value={key}>
-                        <div> {key} </div>
-                        <FavoriteButton currency={key} />
-                    </Option>
-                })}
+                {currencyBoxlist}
 
             </Select>
         </div>
@@ -94,14 +101,7 @@ export default function CurrencyExchangeCalculator() {
             onChange={(_e, value) => handleChange(value, setToCurrency, 1)}
             >
 
-                {Object.keys(exchangeRates).map(key => {
-                    return <Option key={key} value={key}>
-                        <div className='listboxCurrencyWrapper'>
-                            <div>{key}</div>
-                            <FavoriteButton currency={key} />
-                        </div>
-                    </Option>
-                })}
+                {currencyBoxlist}
 
             </Select>
         </div>

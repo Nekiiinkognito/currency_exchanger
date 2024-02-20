@@ -20,6 +20,7 @@ export default function FavoriteButton( { currency }:FavoriteButton ) {
         }
     })
     
+    
 
     function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()

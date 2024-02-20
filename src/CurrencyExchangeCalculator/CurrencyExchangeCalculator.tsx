@@ -3,6 +3,8 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 import { exchangeRatesAtom } from '../App'
 import { Input, Option, Select } from '@mui/joy'
 import { InnerInput } from '../CustomCurrencyInput/CustomCurrencyInput'
+import './CurrencyExchangeCalculator.css'
+import FavoriteButton from '../FavoriteButton/FavoriteButton'
 
 
 export default function CurrencyExchangeCalculator() {
@@ -10,6 +12,8 @@ export default function CurrencyExchangeCalculator() {
 
     const [fromCurrency, setFromCurrency] = useState<string>("USD")
     const [toCurrency, setToCurrency] = useState<string>("RUB")
+
+    const [rate, setRate] = useState<number[]>([exchangeRates[fromCurrency], exchangeRates[toCurrency]])
 
     const [firstCurrencyAmount, setFirstCurrencyAmount] = useState<number>(1)
     const [secondCurrencyAmount, setSecondCurrencyAmount] = useState<number>(0)
@@ -19,19 +23,26 @@ export default function CurrencyExchangeCalculator() {
         convertCurrencies(1)
     }, [fromCurrency, toCurrency])
 
-    function handleChange(newValue: string | null, setCurrency: React.Dispatch<React.SetStateAction<string>>) {
+    function handleChange(newValue: string | null, setCurrency: React.Dispatch<React.SetStateAction<string>>, changedCurrencyFieldNumber: number) {
         if(newValue === null) return
         setCurrency(newValue)
+        setRate(prev => {
+            let temp = prev
+            temp[changedCurrencyFieldNumber] = exchangeRates[newValue]
+            return temp
+        })
     }
 
     function handleChangeAmount(e: ChangeEvent<HTMLInputElement>, setCurrencyAmount: React.Dispatch<React.SetStateAction<number>>, currencyNumber: number) {
-        // convertCurrencies(currencyNumber, Number(e.target.value))
-        if(isNaN(Number(e.target.value))) return
-        setCurrencyAmount(Number(e.target.value))
+        let newValue = Number(e.target.value)
+        if(!isFinite(newValue)) return
+        
+
+        setCurrencyAmount(newValue)
         if(currencyNumber === 1) {
-            setSecondCurrencyAmount(Number(e.target.value) / exchangeRates[fromCurrency] * exchangeRates[toCurrency])
+            setSecondCurrencyAmount(newValue / rate[0] * rate[1])
         } else {
-            setFirstCurrencyAmount(Number(e.target.value) / exchangeRates[toCurrency] * exchangeRates[fromCurrency])
+            setFirstCurrencyAmount(newValue / rate[1] * rate[0])
         }
     }
     
@@ -47,20 +58,24 @@ export default function CurrencyExchangeCalculator() {
     }
 
   return (
-    <div>
+    <div className='currencyBoxWrapper'>
         <div className='currencyBox'>
             <Input
             slots={{input: InnerInput}}
-            slotProps={ {input: {type: "text", placeholder: "Amount", label: "From"}} }
+            slotProps={ {input: {sx: {minWidth: "25rem"}, type: "text", placeholder: "Amount", label: "From"}} }
             value={firstCurrencyAmount}
             onChange={(e) => handleChangeAmount(e, setFirstCurrencyAmount, 1)}/>
 
             <Select 
             value={fromCurrency} 
-            onChange={(e, value) => handleChange(value, setFromCurrency)}>
+            slotProps={ { button: {sx: {minWidth: "10rem"}}, listbox: { sx: {maxWidth: 150} } } }
+            onChange={(_e, value) => handleChange(value, setFromCurrency, 0)}>
 
                 {Object.keys(exchangeRates).map(key => {
-                    return <Option key={key} value={key}>{key}</Option>
+                    return <Option key={key} value={key}>
+                        <div> {key} </div>
+                        <FavoriteButton currency={key} />
+                    </Option>
                 })}
 
             </Select>
@@ -69,16 +84,23 @@ export default function CurrencyExchangeCalculator() {
         <div className='currencyBox'>
             <Input type='string' 
             slots={{input: InnerInput}}
-            slotProps={ {input: {type: "text", placeholder: "Amount", label: "To"}}}
+            slotProps={ {input: {sx: {minWidth: "25rem"}, type: "text", placeholder: "Amount", label: "To"}}}
             value={secondCurrencyAmount}
             onChange={(e) => handleChangeAmount(e, setSecondCurrencyAmount, 2)}/>
             
-            <Select 
+            <Select
+            slotProps={ { button: {sx: {minWidth: "10rem"}}, listbox: { sx: {maxWidth: 150} } } }
             value={toCurrency} 
-            onChange={(e, value) => handleChange(value, setToCurrency)}>
+            onChange={(_e, value) => handleChange(value, setToCurrency, 1)}
+            >
 
                 {Object.keys(exchangeRates).map(key => {
-                    return <Option key={key} value={key}>{key}</Option>
+                    return <Option key={key} value={key}>
+                        <div className='listboxCurrencyWrapper'>
+                            <div>{key}</div>
+                            <FavoriteButton currency={key} />
+                        </div>
+                    </Option>
                 })}
 
             </Select>

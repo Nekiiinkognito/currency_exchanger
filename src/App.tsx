@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './Layout/Layout'
@@ -6,6 +6,7 @@ import { atom, useAtom } from 'jotai'
 import { useQuery } from '@tanstack/react-query'
 import { apiAxiosInstance } from './api/apiSetup'
 import CurrencyExchangerHome from './CurrencyExchangerHome/CurrencyExchangerHome'
+import { atomWithStorage } from 'jotai/utils'
 
 const tempExchangeRates: ExchangeRate = {
   "AED": 3.67295,
@@ -180,10 +181,12 @@ const tempExchangeRates: ExchangeRate = {
 }
 
 export const exchangeRatesAtom = atom<ExchangeRate>(tempExchangeRates)
+export const favoriteCurrenciesAtom = atomWithStorage<string[]>('favorite_currencies', [])
 
 function App() {
 
   const [exchangeRates, setExchangeRates] = useAtom(exchangeRatesAtom)
+  const [favoriteCurrencies] = useAtom(favoriteCurrenciesAtom)
 
   useQuery({
     queryKey: ['exchangeRates', 'main'],
@@ -205,6 +208,19 @@ function App() {
     },
     enabled: false
   })
+
+  useEffect(() => {
+    setExchangeRates(prev => {
+      var temp: ExchangeRate = {}
+      for (let i = 0; i < favoriteCurrencies.length; i++){
+        let currencyCurrent = favoriteCurrencies[i]
+        temp[currencyCurrent] = exchangeRates[currencyCurrent]
+      }
+      temp = {...temp, ...exchangeRates}
+      return temp
+    })
+  }, [favoriteCurrencies])
+  
 
   return (
     <>

@@ -6,6 +6,7 @@ const StyledInput = styled('input')({
   minWidth: 0, // remove the native input width
   outline: 0, // remove the native input outline
   padding: 0, // remove the native input padding
+  flexGrow: 1,
   paddingTop: '1em',
   color: 'inherit',
   backgroundColor: 'transparent',

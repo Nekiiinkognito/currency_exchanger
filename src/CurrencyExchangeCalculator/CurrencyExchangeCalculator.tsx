@@ -6,6 +6,7 @@ import { InnerInput } from '../CustomCurrencyInput/CustomCurrencyInput'
 import './CurrencyExchangeCalculator.css'
 import FavoriteButton from '../FavoriteButton/FavoriteButton'
 import { CurrencyInfo } from '../Constant/CurrencyInfo'
+import { sxFont } from '../Constant/SxFont'
 
 
 export default function CurrencyExchangeCalculator() {
@@ -64,10 +65,18 @@ export default function CurrencyExchangeCalculator() {
     
     const currencyBoxlist =  useMemo(() => {
         return Object.keys(exchangeRates).map(key => {
-            return <Option key={key} value={key}>
-                <Tooltip  placement='left' variant='soft' title={CurrencyInfo[key] ? CurrencyInfo[key].name : "No data"}>
+            return <Option sx={{
+                fontFamily: "'Ubuntu', sans-serif",
+                fontWeight: 300,
+                fontStyle: 'normal',
+                userSelect: 'none'
+            }} key={key} value={key}>
+                <Tooltip
+                enterDelay={500}
+                enterNextDelay={500}
+                placement='left' variant='soft' title={CurrencyInfo[key] ? CurrencyInfo[key].name : "No data"}>
                     <div className='listboxCurrencyWrapper'>
-                        <div> {key} </div>
+                        {key}
                         <FavoriteButton currency={key} />
                     </div>
                 </Tooltip>
@@ -83,15 +92,15 @@ export default function CurrencyExchangeCalculator() {
             <div style={{width: '15rem'}}>
                 <Input
                 slots={{input: InnerInput}}
-                slotProps={ {input: {sx: {minWidth: "7.5rem"}, type: "text", placeholder: "Amount", label: "From"}} }
+                slotProps={ {input: {sx: {...sxFont, minWidth: '7.5rem'}, type: "text", placeholder: "Amount", label: "From"}} }
                 value={firstCurrencyAmount}
-                endDecorator={CurrencyInfo[fromCurrency] ? CurrencyInfo[fromCurrency].symbol : ""}
+                // endDecorator={CurrencyInfo[fromCurrency] ? CurrencyInfo[fromCurrency].symbol : ""}
                 onChange={(e) => handleChangeAmount(e, setFirstCurrencyAmount, 1)}/>
             </div>
 
             <Select 
             value={fromCurrency} 
-            slotProps={ { button: {sx: {minWidth: "4rem"}}, listbox: { sx: {maxWidth: 150} } } }
+            slotProps={ { button: {sx: {minWidth: "4rem", ...sxFont}}, listbox: { sx: {maxWidth: 150} } } }
             onChange={(_e, value) => handleChange(value, setFromCurrency, 0)}>
 
                 {currencyBoxlist}
@@ -103,14 +112,14 @@ export default function CurrencyExchangeCalculator() {
             <div style={{width: '15rem'}}>
                 <Input type='string' 
                 slots={{input: InnerInput}}
-                slotProps={ {input: {sx: {minWidth: "7.5rem"}, type: "text", placeholder: "Amount", label: "To"}}}
+                slotProps={ {input: {sx: {minWidth: "7.5rem", ...sxFont}, type: "text", placeholder: "Amount", label: "To"}}}
                 value={secondCurrencyAmount}
-                endDecorator={CurrencyInfo[toCurrency] ? CurrencyInfo[toCurrency].symbol : ""}
+                // endDecorator={CurrencyInfo[toCurrency] ? CurrencyInfo[toCurrency].symbol : ""}
                 onChange={(e) => handleChangeAmount(e, setSecondCurrencyAmount, 2)}/>
             </div>
             
             <Select
-            slotProps={ { button: {sx: {minWidth: "4rem"}}, listbox: { sx: {maxWidth: 150} } } }
+            slotProps={ { button: {sx: {minWidth: "4rem", ...sxFont}}, listbox: { sx: {maxWidth: 150} } } }
             value={toCurrency} 
             onChange={(_e, value) => handleChange(value, setToCurrency, 1)}
             >

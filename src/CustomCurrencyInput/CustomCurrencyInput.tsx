@@ -7,7 +7,7 @@ const StyledInput = styled('input')({
   outline: 0, // remove the native input outline
   padding: 0, // remove the native input padding
   flexGrow: 1,
-  color: 'inherit',
+  color: 'black',
   backgroundColor: 'transparent',
   fontFamily: 'inherit',
   fontSize: 'inherit',
@@ -16,6 +16,7 @@ const StyledInput = styled('input')({
   lineHeight: 'inherit',
   textOverflow: 'ellipsis',
   paddingTop: '0.4rem',
+  variant: 'outlined',
   '&::placeholder': {
     opacity: 0,
     transition: '0.1s ease-out',
@@ -31,7 +32,7 @@ const StyledInput = styled('input')({
     fontSize: '0.75rem',
   },
   '&:focus ~ label': {
-    color: 'var(--Input-focusedHighlight)',
+    color: 'black',
   },
   '&:-webkit-autofill': {
     alignSelf: 'stretch', // to fill the height of the root slot
@@ -50,7 +51,7 @@ const StyledLabel = styled('label')(({ theme }) => ({
   position: 'absolute',
   lineHeight: 1,
   top: 'calc((var(--Input-minHeight) - 1em) - 1em)',
-  color: theme.vars.palette.text.tertiary,
+  color: 'black',
   fontWeight: theme.vars.fontWeight.md,
   transition: 'all 150ms cubic-bezier(0.4, 0, 0.2, 1)',
 }));

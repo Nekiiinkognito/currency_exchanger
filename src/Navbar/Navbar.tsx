@@ -13,7 +13,7 @@ export default function Navbar() {
                     <CustomLink to="/" text='Currency exchanger'/>
                 </ListItem>
 
-                <ListDivider />
+                <ListDivider sx={{height: '50%', top: '25%'}} />
 
                 <ListItem role='none'>
                         <CustomLink to="/exchange_rates" text='Exchange rates'/>
@@ -21,7 +21,11 @@ export default function Navbar() {
 
                 <ListItem role='none'
                 sx={{
-                    marginInlineStart: 'auto'
+                    marginInlineStart: 'auto',
+                    fontFamily: "'Ubuntu', sans-serif",
+                    fontWeight: 300,
+                    fontStyle: 'normal',
+                    userSelect: 'none'
                 }}>
                     Default currency: 
                         <DefaultCurrencyPicker />
@@ -43,7 +47,7 @@ function CustomLink( { to, text }:CustomLink ) {
     function getStyle(ref: string){
         let style: React.CSSProperties = {}
         if(ref === location.pathname) {
-            style.backgroundColor = "rgb(52, 255, 52)"
+            style.backgroundColor = "#c4ac6c"
             style.zIndex = 99
             style.height = '3px'
             style.top = '20rem'

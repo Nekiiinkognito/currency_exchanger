@@ -13,7 +13,7 @@ export default function CurrencyExchangeCalculator() {
     const [defaultCurrency] = useAtom(defaultCurrencyAtom)
 
     const [fromCurrency, setFromCurrency] = useState<string>("USD")
-    const [toCurrency, setToCurrency] = useState<string>(defaultCurrency)
+    const [toCurrency, setToCurrency] = useState<string>(defaultCurrency ? defaultCurrency : "RUB")
 
     // We store only two needed to us rates for optimization
     const [rate, setRate] = useState<number[]>([exchangeRates[fromCurrency], exchangeRates[toCurrency]])

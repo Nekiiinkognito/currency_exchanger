@@ -25,7 +25,7 @@ export default function GreetingPopup( { isGreetingPopup }:GreetingPopup ) {
         <div className='greetingPopupWrapper'>
 
             <div className='greetingTextWrapper'>
-                <h1>Greeting!</h1>
+                <h1>Greetings!</h1>
                 <p>Do you want this currency as default: 
                     <b> {defaultCurrency}?</b>
                 </p>

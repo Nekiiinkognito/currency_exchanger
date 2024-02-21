@@ -248,7 +248,7 @@ function App() {
 
       return {}
     },
-    enabled: false,
+    enabled: true,
     refetchOnWindowFocus: false,
     refetchInterval: 10 * 60 * 1000,
     refetchIntervalInBackground: false

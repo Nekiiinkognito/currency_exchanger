@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 import React, { ChangeEvent, useEffect, useMemo, useState } from 'react'
-import { exchangeRatesAtom } from '../App'
+import { defaultCurrencyAtom, exchangeRatesAtom } from '../App'
 import { Input, Option, Select, Tooltip } from '@mui/joy'
 import { InnerInput } from '../CustomCurrencyInput/CustomCurrencyInput'
 import './CurrencyExchangeCalculator.css'
@@ -10,16 +10,19 @@ import { CurrencyInfo } from '../Constant/CurrencyInfo'
 
 export default function CurrencyExchangeCalculator() {
     const [exchangeRates] = useAtom(exchangeRatesAtom)
+    const [defaultCurrency] = useAtom(defaultCurrencyAtom)
 
     const [fromCurrency, setFromCurrency] = useState<string>("USD")
-    const [toCurrency, setToCurrency] = useState<string>("RUB")
+    const [toCurrency, setToCurrency] = useState<string>(defaultCurrency)
 
+    // We store only two needed to us rates for optimization
     const [rate, setRate] = useState<number[]>([exchangeRates[fromCurrency], exchangeRates[toCurrency]])
 
     const [firstCurrencyAmount, setFirstCurrencyAmount] = useState<number>(1)
     const [secondCurrencyAmount, setSecondCurrencyAmount] = useState<number>(0)
 
-
+    // When we change one of two currencies
+    // We recalculate amount of currency we converting to   
     useEffect(() => {
         convertCurrencies(1)
     }, [fromCurrency, toCurrency])

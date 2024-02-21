@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { defaultCurrencyAtom, exchangeRatesAtom } from '../App'
+import { defaultCurrencyAtom } from '../App'
 import { createPortal } from 'react-dom'
 import './GreetingPopup.css'
 import DefaultCurrencyPicker from '../DefaultCurrencyPicker/DefaulCurrencyPicker'
@@ -17,8 +17,11 @@ export default function GreetingPopup( { isGreetingPopup }:GreetingPopup ) {
   return createPortal((
 
     <div>
+
+        {/* Background of popup */}
         <div className='popupBackground' onScroll={e => e.stopPropagation()}/>
 
+        {/* Popup body */}
         <div className='greetingPopupWrapper'>
 
             <div className='greetingTextWrapper'>

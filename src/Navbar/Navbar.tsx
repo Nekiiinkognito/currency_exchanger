@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import React from 'react';
-import { Box, List, ListDivider, ListItem, ListItemButton } from '@mui/joy';
+import { Box, List, ListDivider, ListItem } from '@mui/joy';
 import DefaultCurrencyPicker from '../DefaultCurrencyPicker/DefaulCurrencyPicker';
 
 export default function Navbar() { 

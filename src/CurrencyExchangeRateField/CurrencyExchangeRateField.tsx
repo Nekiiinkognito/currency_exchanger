@@ -1,5 +1,4 @@
 import { useAtom } from 'jotai'
-import React from 'react'
 import { defaultCurrencyAtom, exchangeRatesAtom } from '../App'
 import './CurrencyExchangeRateField.css'
 import FavoriteButton from '../FavoriteButton/FavoriteButton'
@@ -16,31 +15,42 @@ export default function CurrencyExchangeRateField( {currencyToConvert}:CurrencyE
     const [defaultCurrency] = useAtom(defaultCurrencyAtom)
 
   return (
-    <div className='mainCurrencyExchangeWrapper'>
+    <div style={{display: 'flex', justifyContent: 'center'}}>
 
-        <div className='currencyExchangeWrapper'>
+        <div className='mainCurrencyExchangeWrapper'>
 
-            <div className='currencyToConvertWrapper' >
-                <Tooltip variant='soft' title={CurrencyInfo[currencyToConvert] ? CurrencyInfo[currencyToConvert].name : "No info"}>
-                    <div>
-                        1 {currencyToConvert}
-                    </div>
-                </Tooltip>
-            </div>
+            <div className='currencyExchangeWrapper'>
 
-            <div className='defaultCurrencyWrapper'>
-            <Tooltip variant='soft' title={CurrencyInfo[defaultCurrency] ? CurrencyInfo[defaultCurrency].name : "No info"}>
-                <div>
-                    {1 / exchangeRate[currencyToConvert] * exchangeRate[defaultCurrency]} {defaultCurrency}
+                <div className='currencyToConvertWrapper' >
+                    <Tooltip variant='soft' title={CurrencyInfo[currencyToConvert] ? CurrencyInfo[currencyToConvert].name : "No info"}>
+                        <div>
+                            {"1 "}
+                            <b>
+                                {currencyToConvert}
+                            </b> 
+                        </div>
+                    </Tooltip>
                 </div>
-            </Tooltip>
+                <div> = </div>
+                <div className='defaultCurrencyWrapper'>
+                    <Tooltip enterDelay={500} variant='soft' title={CurrencyInfo[defaultCurrency] ? CurrencyInfo[defaultCurrency].name : "No info"}>
+                        <div>
+                            {1 / exchangeRate[currencyToConvert] * exchangeRate[defaultCurrency]} 
+                            {" "}
+                            <b>
+                                {defaultCurrency}
+                            </b>
+                        </div>
+                    </Tooltip>
+                </div>
 
             </div>
 
+         <div style={{marginRight: '2rem'}}>
+            <FavoriteButton currency={currencyToConvert} />
         </div>
 
-        <FavoriteButton currency={currencyToConvert} />
-
+        </div>
     </div>
   )
 }

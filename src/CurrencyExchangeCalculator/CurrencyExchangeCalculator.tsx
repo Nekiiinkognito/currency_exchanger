@@ -73,6 +73,8 @@ export default function CurrencyExchangeCalculator() {
     }, [exchangeRates])
 
   return (
+    <div>
+        
     <div className='currencyBoxWrapper'>
         <div className='currencyBox'>
             <div style={{width: '15rem'}}>
@@ -115,5 +117,6 @@ export default function CurrencyExchangeCalculator() {
             </Select>
         </div>
     </div>
+                </div>
   )
 }

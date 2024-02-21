@@ -1,0 +1,53 @@
+.greetingPopupWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: beige;
+    z-index: 9000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    border-radius: 10px;
+    border: 1px solid black;
+
+    width: 30rem;
+    height: 20rem;
+
+    margin: 0;
+    padding: 2rem;
+
+    top: calc(50% - 4rem);
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.greetingTextWrapper {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    font-style: "Ubuntu", sans-serif;
+}
+
+.defaultCurrencyPickerWrapper {
+    align-items: center;
+    width: 30%;
+}
+
+.popupBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: black;
+    opacity: 0.5;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 9000;
+}

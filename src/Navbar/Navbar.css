@@ -1,5 +1,8 @@
 nav {
-    background-color: palegoldenrod ;
+    background-color: palegoldenrod;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
 }
 
 a {

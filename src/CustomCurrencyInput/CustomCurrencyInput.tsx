@@ -15,7 +15,7 @@ const StyledInput = styled('input')({
   fontWeight: 'inherit',
   lineHeight: 'inherit',
   textOverflow: 'ellipsis',
-  paddingTop: '0px',
+  paddingTop: '0.4rem',
   '&::placeholder': {
     opacity: 0,
     transition: '0.1s ease-out',
@@ -25,8 +25,9 @@ const StyledInput = styled('input')({
   },
   '&:focus ~ label, &:not(:placeholder-shown) ~ label, &:-webkit-autofill ~ label': {
     top: '-0.5rem',
+    left: '0.5rem',
     backgroundColor: 'white',
-    zIndex: 9999,
+    zIndex: 10,
     fontSize: '0.75rem',
   },
   '&:focus ~ label': {
@@ -58,9 +59,9 @@ export const InnerInput = React.forwardRef< HTMLInputElement, any >(
     function InnerInput( props, ref ) {
     const id = React.useId();
     return (
-        <React.Fragment>
+        <div>
             <StyledInput {...props} ref={ref} id={id} />
             <StyledLabel htmlFor={id}>{props.label}</StyledLabel>
-        </React.Fragment>
+        </div>
     );
 });

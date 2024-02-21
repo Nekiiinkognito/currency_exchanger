@@ -7,7 +7,9 @@ export default function Layout() {
   return (
     <div>
         <Navbar />
-        <Outlet />
+        <div style={{paddingTop: "4rem"}}>   
+            <Outlet />
+        </div>
     </div>
   )
 }

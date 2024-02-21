@@ -2,3 +2,8 @@
     background-color: transparent;
     border: none;
 }
+
+.favButton:hover {
+    scale: 1.1;
+    cursor: pointer;
+}

@@ -1,24 +1,30 @@
-import { Link, redirect, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import React from 'react';
 import { Box, List, ListDivider, ListItem, ListItemButton } from '@mui/joy';
+import DefaultCurrencyPicker from '../DefaultCurrencyPicker/DefaulCurrencyPicker';
 
 export default function Navbar() { 
     return (
-        <Box component="nav" aria-label='Currency exchanger' sx={{ flexGrow: 1, height: '4rem', display: 'flex'}}>
+        <Box component="nav" aria-label='Currency exchanger' 
+        sx={{ flexGrow: 1, height: '4rem', display: 'flex'}}>
             <List role="menubar" orientation='horizontal'>
-                <ListItem role="none">
-                    <ListItemButton role="menuitem">
-                        <CustomLink to="/" text='Currency exchanger'/>
-                    </ListItemButton>
+                <ListItem role="menuitem">
+                    <CustomLink to="/" text='Currency exchanger'/>
                 </ListItem>
 
                 <ListDivider />
 
                 <ListItem role='none'>
-                    <ListItemButton role="menuitem">
                         <CustomLink to="/exchange_rates" text='Exchange rates'/>
-                    </ListItemButton>
+                </ListItem>
+
+                <ListItem role='none'
+                sx={{
+                    marginInlineStart: 'auto'
+                }}>
+                    Default currency: 
+                        <DefaultCurrencyPicker />
                 </ListItem>
             </List>
         </Box>
@@ -38,6 +44,9 @@ function CustomLink( { to, text }:CustomLink ) {
         let style: React.CSSProperties = {}
         if(ref === location.pathname) {
             style.backgroundColor = "rgb(52, 255, 52)"
+            style.zIndex = 99
+            style.height = '3px'
+            style.top = '20rem'
         }
         return style
     }
